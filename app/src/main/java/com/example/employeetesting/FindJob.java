@@ -110,7 +110,6 @@ public class FindJob extends AppCompatActivity {
                                                 // JobListModel jobM = dataSnapshot.getValue(JobListModel.class);
                                                 jobAdapter = new JobListAdapter(FindJob.this, jobModel);
                                                 recyclerView.setAdapter(jobAdapter);
-
                                             }
 
                                             // UrgentJobs urgentJobs=new UrgentJobs();
