@@ -3,6 +3,7 @@ package com.example.employeetesting;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.spec.ECField;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,26 +94,30 @@ public class UrgentJobActivity extends AppCompatActivity {
                                                  //Log.d("date","urgent job="+date);
                                                  // date1= sc.next()==date;
                                                  //date2 = sc.next();
-                                                 String arr1[] = test.split(" ");
-                                                 String arr2[] = date.split("/");
-                                                 String arr3[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-                                                 if(arr1[0].equals(arr2[0]) && (arr1[1].equals(arr3[Integer.parseInt(arr2[1])-1])) && Integer.parseInt(arr1[2])==Integer.parseInt(arr2[2]))
-                                                 {
-                                                     id++;
-                                                     jobtitle=dataSnapshots.child(jobs).child("Job_Title").getValue().toString();
-                                                     companynamem=dataSnapshots.child(jobs).child("Company_name").getValue().toString();
-                                                     description=dataSnapshots.child(jobs).child("Job_Desc").getValue().toString();
-                                                     rupee=dataSnapshots.child(jobs).child("Job_Amount").getValue().toString();
-                                                     date=dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
-                                                     timeofreporting=dataSnapshots.child(jobs).child("Job_Start_Time").getValue().toString();
-                                                     end_time=dataSnapshots.child(jobs).child("Job_End_Time").getValue().toString();
-                                                     booking_radius=dataSnapshots.child(jobs).child("Job_Booking_Radius").getValue().toString();
-                                                     //  employee_Id=dataSnapshot.child(jobs).child("UserId").getValue().toString();
-                                                     jobModel.add(new JobListModel(companynamem,rupee,booking_radius,date,description,end_time,special,timeofreporting,jobtitle,employee_Id));
-                                                     // JobListModel jobM = dataSnapshot.getValue(JobListModel.class);
-                                                     jobAdapter = new JobListAdapter(UrgentJobActivity.this, jobModel);
-                                                     View.setAdapter(jobAdapter);
+                                                 try {
+                                                     String arr1[] = test.split(" ");
+                                                     String arr2[] = date.split("/");
+                                                     String arr3[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+                                                     if (arr1[0].equals(arr2[0]) && (arr1[1].equals(arr3[Integer.parseInt(arr2[1]) - 1])) && Integer.parseInt(arr1[2]) == Integer.parseInt(arr2[2])) {
+                                                         id++;
+                                                         jobtitle = dataSnapshots.child(jobs).child("Job_Title").getValue().toString();
+                                                         companynamem = dataSnapshots.child(jobs).child("Company_name").getValue().toString();
+                                                         // description=dataSnapshots.child(jobs).child("Job_Desc").getValue().toString();
+                                                         rupee = dataSnapshots.child(jobs).child("Job_Amount").getValue().toString();
+                                                         date = dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
+                                                         timeofreporting = dataSnapshots.child(jobs).child("Job_Start_Time").getValue().toString();
+                                                         end_time = dataSnapshots.child(jobs).child("Job_End_Time").getValue().toString();
+                                                         //booking_radius=dataSnapshots.child(jobs).child("Job_Booking_Radius").getValue().toString();
+                                                         //  employee_Id=dataSnapshot.child(jobs).child("UserId").getValue().toString();
+                                                         jobModel.add(new JobListModel(companynamem, rupee, booking_radius, date, description, end_time, special, timeofreporting, jobtitle, employee_Id));
+                                                         // JobListModel jobM = dataSnapshot.getValue(JobListModel.class);
+                                                         jobAdapter = new JobListAdapter(UrgentJobActivity.this, jobModel);
+                                                         View.setAdapter(jobAdapter);
 
+                                                     }
+                                                 }
+                                                 catch (Exception e){
+                                                     Log.d("ur","ur"+e);
                                                  }
 
                                                  // UrgentJobs urgentJobs=new UrgentJobs();
@@ -137,7 +143,7 @@ public class UrgentJobActivity extends AppCompatActivity {
                                              }
 
 // Log.d("id","Urgent jobs=="+id);
-////                                    tex.setText(String.valueOf(id));
+                                   tex.setText(String.valueOf(id));
 ////                                    Log.d("k","Applied jobs jobs=="+k);
 ////                                    Log.d("jobs","Avaliable Jobs"+s);
                                          }
@@ -237,26 +243,27 @@ public class UrgentJobActivity extends AppCompatActivity {
                                                  //Log.d("date","urgent job="+date);
                                                  // date1= sc.next()==date;
                                                  //date2 = sc.next();
-
-                                                 String arr1[] = test.split("/");
-                                                 String arr2[] = date.split("/");
-                                                 if(arr1[0].equals(arr2[0]) &&   Integer.parseInt(arr1[1])== Integer.parseInt(arr2[1]) && Integer.parseInt(arr1[2])==Integer.parseInt(arr2[2]))
-                                                 {
-                                                     id++;
-                                                     jobtitle=dataSnapshots.child(jobs).child("Job_Title").getValue().toString();
-                                                     companynamem=dataSnapshots.child(jobs).child("Company_name").getValue().toString();
-                                                     description=dataSnapshots.child(jobs).child("Job_Desc").getValue().toString();
-                                                     rupee=dataSnapshots.child(jobs).child("Job_Amount").getValue().toString();
-                                                     date=dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
-                                                     timeofreporting=dataSnapshots.child(jobs).child("Job_Start_Time").getValue().toString();
-                                                     end_time=dataSnapshots.child(jobs).child("Job_End_Time").getValue().toString();
-                                                     booking_radius=dataSnapshots.child(jobs).child("Job_Booking_Radius").getValue().toString();
-                                                     //  employee_Id=dataSnapshot.child(jobs).child("UserId").getValue().toString();
-                                                     jobModel.add(new JobListModel(companynamem,rupee,booking_radius,date,description,end_time,special,timeofreporting,jobtitle,employee_Id));
-                                                     // JobListModel jobM = dataSnapshot.getValue(JobListModel.class);
-                                                     jobAdapter = new JobListAdapter(UrgentJobActivity.this, jobModel);
-                                                     View.setAdapter(jobAdapter);
-
+                                                 try {
+                                                     String arr1[] = test.split("/");
+                                                     String arr2[] = date.split("/");
+                                                     if (arr1[0].equals(arr2[0]) && Integer.parseInt(arr1[1]) == Integer.parseInt(arr2[1]) && Integer.parseInt(arr1[2]) == Integer.parseInt(arr2[2])) {
+                                                         id++;
+                                                         jobtitle = dataSnapshots.child(jobs).child("Job_Title").getValue().toString();
+                                                         companynamem = dataSnapshots.child(jobs).child("Company_name").getValue().toString();
+                                                         //description=dataSnapshots.child(jobs).child("Job_Desc").getValue().toString();
+                                                         rupee = dataSnapshots.child(jobs).child("Job_Amount").getValue().toString();
+                                                         date = dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
+                                                         timeofreporting = dataSnapshots.child(jobs).child("Job_Start_Time").getValue().toString();
+                                                         end_time = dataSnapshots.child(jobs).child("Job_End_Time").getValue().toString();
+                                                         //booking_radius=dataSnapshots.child(jobs).child("Job_Booking_Radius").getValue().toString();
+                                                         //employee_Id=dataSnapshot.child(jobs).child("UserId").getValue().toString();
+                                                         jobModel.add(new JobListModel(companynamem, rupee, booking_radius, date, description, end_time, special, timeofreporting, jobtitle, employee_Id));
+                                                         // JobListModel jobM = dataSnapshot.getValue(JobListModel.class);
+                                                         jobAdapter = new JobListAdapter(UrgentJobActivity.this, jobModel);
+                                                         View.setAdapter(jobAdapter);
+                                                     }
+                                                 }catch (Exception e){
+                                                     Log.d("urgent","urgent"+e);
                                                  }
 
                                                  // UrgentJobs urgentJobs=new UrgentJobs();
@@ -282,7 +289,7 @@ public class UrgentJobActivity extends AppCompatActivity {
                                              }
 
 // Log.d("id","Urgent jobs=="+id);
-////                                    tex.setText(String.valueOf(id));
+                                        tex.setText(String.valueOf(id));
 ////                                    Log.d("k","Applied jobs jobs=="+k);
 ////                                    Log.d("jobs","Avaliable Jobs"+s);
                                          }
@@ -354,32 +361,6 @@ public class UrgentJobActivity extends AppCompatActivity {
                      }
                  });
              }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

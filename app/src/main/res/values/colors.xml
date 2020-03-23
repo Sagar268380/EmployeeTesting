@@ -69,4 +69,21 @@
     <color name="red">#B91111</color>
 
     <color name="rate_color">#BFB7B1</color>
+
+    <item name="orange_colo" type="color">#FF9E80</item>
+    <item name="re" type="color">#B388FF</item>
+    <item name="colorprevoius" type="color">#3BFFD8</item>
+    <item name="colorprevoi" type="color">#7DBD4F</item>
+    <item name="colorprevo" type="color">#B9FF5722</item>
+
+
+
+    <integer-array name="androidcolor">
+        <item>@color/orange_colo</item>
+        <item>@color/re</item>
+        <item>@color/colorprevoius</item>
+        <item>@color/colorprevoi</item>
+        <item>@color/colorprevo</item>
+
+    </integer-array>
 </resources>

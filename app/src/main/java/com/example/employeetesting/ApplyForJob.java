@@ -11,6 +11,8 @@ public class ApplyForJob extends AppCompatActivity {
 EditText et_UserName,etLangauge,etPhoneNumber,etGooglePayNumber,etLocation;
 Button btnApplyForJob;
 
+String userName,userLangauge,userNumber,userGooglePayNumber,userLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,10 @@ Button btnApplyForJob;
         etPhoneNumber=findViewById(R.id.et_phone_number);
         etGooglePayNumber=findViewById(R.id.et_tez_number);
         etLocation=findViewById(R.id.et_location);
+
+        
+
+
 
 
 

@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -57,6 +59,7 @@ private DrawerLayout mNavDrawer;
 String userJobDate;
 
 ImageView imageView;
+ImageView imagrHeader;
 
     TextView txtName,txtEmail;
 FirebaseAuth firebaseAuth;
@@ -64,7 +67,7 @@ FirebaseAuth firebaseAuth;
     FirebaseFirestore fStore;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference,ds1;
+    DatabaseReference databaseReference,ds1,ds2;
     View viewHeader;
     StorageReference storageReference;
     private FirebaseUser mCurrentUser;
@@ -82,23 +85,87 @@ FirebaseAuth firebaseAuth;
 
     EditText et_date_j;
 
+    CardView avaliableCardId,urgentCardId,appliedCardId;
+    SwitchCompat switchCompat;
+    String status1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawable_layout);
 
+       // ExampleDialog exampleDialog = new ExampleDialog();
+        //exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
+
         sp=getSharedPreferences("date",MODE_PRIVATE);
         datePicker=findViewById(R.id.date_picker);
 
 
-        imageView=findViewById(R.id.userImage);
+        avaliableCardId=findViewById(R.id.avaliableCardId);
+        avaliableCardId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(HomeActivity.this,FindJob.class);
+                startActivity(intent);
+            }
+        });
+
+        urgentCardId=findViewById(R.id.urgentCardId);
+        urgentCardId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(HomeActivity.this,UrgentJobActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        appliedCardId=findViewById(R.id.appliedCardId);
+        appliedCardId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(HomeActivity.this,EmployeeSetAvalibilty.class);
+                startActivity(intent);
+            }
+        });
+
+        switchCompat=findViewById(R.id.switchButton);
+        switchCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchCompat.isChecked()){
+                  status1="avaliable";
+                  isStatusChecked(status1);
+
+                    ExampleDialog exampleDialog = new ExampleDialog();
+                    exampleDialog.show(getSupportFragmentManager(), "example dialog");
+
+                }
+                else{
+                  status1="unavaliable";
+                  isStatusChecked(status1);
+                }
+            }
+        });
+
+
+
+
+
+       // imageView=findViewById(R.id.userImage);
 
         txt_25=findViewById(R.id.txt_25);
         txt_35=findViewById(R.id.txt_35);
         txt_10=findViewById(R.id.txt_10);
         txt_5=findViewById(R.id.txt_5);
         dateDisplay=findViewById(R.id.date);
+        txt_25.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in=new Intent(HomeActivity.this,newActivity.class);
+                startActivity(in);
+            }
+        });
 
 
 
@@ -125,6 +192,27 @@ FirebaseAuth firebaseAuth;
 
         txtEmail=viewHeader.findViewById(R.id.headeremail);
         txtName=viewHeader.findViewById(R.id.headername);
+        imagrHeader=viewHeader.findViewById(R.id.UserImageProfile);
+
+        databaseReference= FirebaseDatabase.getInstance("https://employeetesting-f03f6.firebaseio.com/").getReference().child("Image").child(firebaseAuth.getCurrentUser().getUid()).child("image");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String link=dataSnapshot.getValue(String.class);
+                Log.d("image","image"+link);
+                Picasso.get().load(link).into(imagrHeader);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
         try {
 
@@ -136,8 +224,13 @@ FirebaseAuth firebaseAuth;
                     if (documentSnapshot.exists()) {
                         String mName = documentSnapshot.getString("first");
                         String mEmail = documentSnapshot.getString("email");
+                        String  mLast=documentSnapshot.getString("last");
 
-                        txtName.setText(mName);
+                        Log.d("current","urgent job="+mName);
+                        Log.d("date","urgent job="+mEmail);
+
+
+                        txtName.setText(mName+" "+mLast);
                         txtEmail.setText(mEmail);
                     }
                 }
@@ -157,25 +250,25 @@ FirebaseAuth firebaseAuth;
 
         // mDisplayDate =  findViewById(R.id.tvDate);
 
-       datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.icu.util.Calendar cal = android.icu.util.Calendar.getInstance();
-                int year = cal.get(android.icu.util.Calendar.YEAR);
-                int month = cal.get(android.icu.util.Calendar.MONTH);
-                int day = cal.get(android.icu.util.Calendar.DAY_OF_MONTH);
+            datePicker.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            android.icu.util.Calendar cal = android.icu.util.Calendar.getInstance();
+            int year = cal.get(android.icu.util.Calendar.YEAR);
+            int month = cal.get(android.icu.util.Calendar.MONTH);
+            int day = cal.get(android.icu.util.Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        HomeActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
+            DatePickerDialog dialog = new DatePickerDialog(
+                    HomeActivity.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    mDateSetListener,
+                    year, month, day);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+    });
 
-       mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
@@ -424,23 +517,27 @@ FirebaseAuth firebaseAuth;
                                     {
                                         for (DataSnapshot ds1 : dataSnapshots.getChildren())
                                         {
-                                            String  jobs=ds1.getKey();
+                                            try {
+                                                String jobs = ds1.getKey();
 
-                                            date=dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
+                                                date = dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
 
-                                            String arr1[] = currentDate.split(" ");
-                                            String arr2[] = date.split("/");
-                                            String arr3[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-                                            if(arr1[0].equals(arr2[0]) && (arr1[1].equals(arr3[Integer.parseInt(arr2[1])-1])) && Integer.parseInt(arr1[2])==Integer.parseInt(arr2[2]))
-                                                urgent++;
-                                            if(Integer.parseInt(arr1[0])<=Integer.parseInt(arr2[0]) || (Arrays.asList(arr3).indexOf(arr1[1])+1)<Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2])<Integer.parseInt(arr2[2]))
-                                                avilable++;
-                                            if(Integer.parseInt(arr1[0])<Integer.parseInt(arr2[0]) || (Arrays.asList(arr3).indexOf(arr1[1])+1)<Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2])<Integer.parseInt(arr2[2]))
-                                                applied++;
+                                                String arr1[] = currentDate.split(" ");
+                                                String arr2[] = date.split("/");
+                                                String arr3[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+                                                if (arr1[0].equals(arr2[0]) && (arr1[1].equals(arr3[Integer.parseInt(arr2[1]) - 1])) && Integer.parseInt(arr1[2]) == Integer.parseInt(arr2[2]))
+                                                    urgent++;
+                                                if (Integer.parseInt(arr1[0]) <= Integer.parseInt(arr2[0]) || (Arrays.asList(arr3).indexOf(arr1[1]) + 1) < Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2]) < Integer.parseInt(arr2[2]))
+                                                    avilable++;
+                                                if (Integer.parseInt(arr1[0]) < Integer.parseInt(arr2[0]) || (Arrays.asList(arr3).indexOf(arr1[1]) + 1) < Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2]) < Integer.parseInt(arr2[2]))
+                                                    applied++;
 
-                                            txt_10.setText(String.valueOf(urgent));
-                                            txt_25.setText(String.valueOf(applied));
-                                            txt_35.setText(String.valueOf(avilable));
+                                                txt_10.setText(String.valueOf(urgent));
+                                                txt_25.setText(String.valueOf(applied));
+                                                txt_35.setText(String.valueOf(avilable));
+                                            }catch (Exception e){
+                                                Log.d("error","error "+e);
+                                            }
 
                                           //  if(arr1[0].equals(arr2[0])&&arr1[2].equals(arr2[2])&& arr2[1].equals(arr3[Integer.parseInt(arr1[1])-1])) {
                                             //                                            id++;
@@ -480,6 +577,7 @@ FirebaseAuth firebaseAuth;
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
                             user=ds.getKey();
                             ds1=firebaseDatabase.getInstance().getReference().child("Jobs").child(user);
 
@@ -491,21 +589,23 @@ FirebaseAuth firebaseAuth;
                                         for (DataSnapshot ds1 : dataSnapshots.getChildren())
                                         {
                                             String  jobs=ds1.getKey();
+                                              try {
+                                                  date = dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
+                                                  String arr1[] = test.split("/");
+                                                  String arr2[] = date.split("/");
+                                                  if (arr1[0].equals(arr2[0]) && Integer.parseInt(arr1[1]) == Integer.parseInt(arr2[1]) && Integer.parseInt(arr1[2]) == Integer.parseInt(arr2[2]))
+                                                      urgent++;
+                                                  if (Integer.parseInt(arr1[0]) <= Integer.parseInt(arr2[0]) || Integer.parseInt(arr1[1]) < Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2]) < Integer.parseInt(arr2[2]))
+                                                      avilable++;
+                                                  if (Integer.parseInt(arr1[0]) < Integer.parseInt(arr2[0]) || Integer.parseInt(arr1[1]) < Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2]) < Integer.parseInt(arr2[2]))
+                                                      applied++;
 
-                                            date=dataSnapshots.child(jobs).child("Job_Date").getValue().toString();
-                                            String arr1[] = test.split("/");
-                                            String arr2[] = date.split("/");
-                                            if(arr1[0].equals(arr2[0]) &&   Integer.parseInt(arr1[1])== Integer.parseInt(arr2[1]) && Integer.parseInt(arr1[2])==Integer.parseInt(arr2[2]))
-                                                urgent++;
-                                            if(Integer.parseInt(arr1[0])<=Integer.parseInt(arr2[0]) || Integer.parseInt(arr1[1])<Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2])<Integer.parseInt(arr2[2]))
-                                                avilable++;
-                                            if(Integer.parseInt(arr1[0])<Integer.parseInt(arr2[0]) || Integer.parseInt(arr1[1])<Integer.parseInt(arr2[1]) || Integer.parseInt(arr1[2])<Integer.parseInt(arr2[2]))
-                                                applied++;
-
-                                            txt_10.setText(String.valueOf(urgent));
-                                            txt_25.setText(String.valueOf(applied));
-                                            txt_35.setText(String.valueOf(avilable));
-
+                                                  txt_10.setText(String.valueOf(urgent));
+                                                  txt_25.setText(String.valueOf(applied));
+                                                  txt_35.setText(String.valueOf(avilable));
+                                              }catch (Exception e){
+                                                  Log.d("ee","ee"+e);
+                                              }
                                         }
                                     }
                                 }
@@ -514,7 +614,6 @@ FirebaseAuth firebaseAuth;
 
                                 }
                             });
-
                         }
                     }
                     else{
@@ -569,6 +668,19 @@ FirebaseAuth firebaseAuth;
 
     }
 
+   private void isStatusChecked(String status1) {
+        ds2=FirebaseDatabase.getInstance().getReference("status");
+       // ds2=FirebaseDatabase.getInstance().getReference("status");
+
+        try {
+            ForStatus forStatus=new ForStatus(status1);
+            ds2.child(firebaseAuth.getCurrentUser().getUid()).setValue(forStatus);
+        }
+        catch (Exception e){
+            Log.d("dataa","error: "+e);
+        }
+    }
+
    /* private  void pickDate(String dateJob) {
         String arr1[] = date.split("/");
         String arr2[] = dateJob.split("/");
@@ -584,6 +696,8 @@ FirebaseAuth firebaseAuth;
         txt_25.setText(String.valueOf(applied));
         txt_35.setText(String.valueOf(avilable));
     }*/
+
+
 
     @Override
     public void onBackPressed() {

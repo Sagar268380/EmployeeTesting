@@ -1,16 +1,19 @@
 package com.example.employeetesting;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.CaseMap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+
+    DatabaseReference databaseReference;
     String userID;
 
     Button btnRegister;
@@ -60,6 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Uri imageUri = null;
     private StorageReference storageReference;
+
+    private static final int ImageBack=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +94,8 @@ public class RegisterActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
 
-
-         storageReference = FirebaseStorage.getInstance().getReference();
-       userImage.setOnClickListener(new View.OnClickListener() {
+        storageReference = FirebaseStorage.getInstance().getReference().child("ImageFolder");
+     /*  userImage.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View view) {
                                              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -98,14 +104,14 @@ public class RegisterActivity extends AppCompatActivity {
                                                      ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                                                      //Toast.makeText(RegisterActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
                                                  } else {
-                                                     choseImage();
+                                                     choseImage(view);
                                                  }
                                              } else {
-                                                 choseImage();
+                                                 //choseImage();
                                              }
                                          }
                                      }
-        );
+        );*/
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +127,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else
                     {
+                        progressDialog = new ProgressDialog(RegisterActivity.this);
+                        progressDialog.setTitle("Uploading");
+                        progressDialog.show();
                     DocumentReference docRef = fStore.collection("users").document(userID);
                     //DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users").child(userID);
                     Map<String,Object> user = new HashMap<>();
@@ -131,7 +140,6 @@ public class RegisterActivity extends AppCompatActivity {
                     user.put("password",et_password.getText().toString());
                     user.put("accountNumber",et_account_number.getText().toString());
                     user.put("PaytmNumber",et_paytm_number.getText().toString());
-
                     user.put("Address", et_address.getText().toString());
                     user.put("IFSCCODE",et_IFSC_CODE.getText().toString());
                     user.put("BankName",et_bank_name.getText().toString());
@@ -139,41 +147,54 @@ public class RegisterActivity extends AppCompatActivity {
                     user.put("TezNumber",et_tez_number.getText().toString());
                     user.put("PhoneNumber",et_phone_number.getText().toString());
 
-                    FileUplode();
+                   // FileUplode();
 
                     docRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+                                progressDialog.dismiss();
+
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 finish();
                             }
                         }
                     });
+
                 }
 
             }
         });
     }
-   /* private String getExtension(Uri uri){
-    ContentResolver cr=getContentResolver();
-    MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
-    return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
-    }*/
 
-    private void FileUplode() {
+   /* private void FileUplode() {
 try {
     if (imageUri != null) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading");
         progressDialog.show();
-        StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
-        reference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+       final StorageReference reference1 = storageReference.child("images/"+imageUri.getLastPathSegment());
+        reference1.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "Image Upload", Toast.LENGTH_SHORT).show();
+
+                 reference1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                   @Override
+                   public void onSuccess(Uri uri) {
+                    DatabaseReference database=FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Image");
+                       HashMap<String,String> hashMap=new HashMap<>();
+                       hashMap.put("imageUrl", String.valueOf(uri));
+                       database.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                           @Override
+                           public void onSuccess(Void aVoid) {
+                               Toast.makeText(RegisterActivity.this, "Upload", Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                   }
+               });
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -192,6 +213,8 @@ try {
         }
     }
 
+
+
     private void choseImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -206,8 +229,52 @@ try {
             if (resultCode == RESULT_OK) {
                 imageUri = result.getUri();
                 userImage.setImageURI(imageUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+
+
+            }else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+            }
+        }
+    }*/
+
+   public void  choseImage(View view){
+       Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+       intent.setType("image/*");
+       startActivityForResult(intent,ImageBack);
+   }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==ImageBack){
+            if(resultCode==RESULT_OK){
+                Uri ImageData=data.getData();
+
+                final StorageReference Imagename= storageReference.child("image"+ImageData.getLastPathSegment());
+
+                Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                DatabaseReference imagestore=FirebaseDatabase.getInstance().getReference().child("Image").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                HashMap<String,String> hashMap=new HashMap<>();
+                                hashMap.put("image", String.valueOf(uri));
+
+                                imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                      //  Toast.makeText(RegisterActivity.this, "Finally Complete", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
         }
     }

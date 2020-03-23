@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,9 +9,10 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        card_view:cardElevation="@dimen/dimen_8dp"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        card_view:cardCornerRadius="0dp">
+        card_view:cardCornerRadius="14dp">
 
         <LinearLayout
             android:id="@+id/lin_firstId"
@@ -32,320 +32,108 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tv_compId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="JOB TITLE :" />
-
-                    <TextView
                         android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
+                        android:textColor="#FFF"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_30sp"
                         android:layout_height="wrap_content"
-                     android:layout_alignParentRight="true"
-                        android:text=" MORNING SHIFT"
-                        android:textColor="#000000" />
+                        android:text="JOB TITLE " />
 
                 </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                   >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_compId2"
-                        android:text="COMPANY NAME:" />
+                    android:layout_marginTop="5dp">
 
                     <TextView
                         android:id="@+id/tv_compId2"
+                        android:textColor="#FFF"
+                        android:textStyle="normal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text=" YYYYYYY"
-                        android:textColor="#000000" />
+                        android:text="HOTEL NAME:" />
+
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
+
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="5dp">
 
                     <TextView
-                        android:id="@+id/tv_projId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="DESCRIPTION:" />
-
-                    <TextView
-                        android:id="@+id/tv_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:ems="5"
-                        android:layout_toRightOf="@+id/tv_projId"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="BridgeWaterloo"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_totaltimeId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="JOB START TIME:" />
-
-                    <TextView
+                        android:textColor="#FFF"
+                        android:textStyle="normal"
                         android:id="@+id/tv_totalTimeId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_totaltimeId"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="9:00"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_starttimeId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="JOB END TIME:" />
+                        android:text="JOB START TIME   " />
 
                     <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/tv_startTimeId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_starttimeId"
-                        android:gravity="right"
+                        android:layout_toRightOf="@+id/tv_totalTimeId"
                         android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="9 Hours"
-                        android:textColor="#000000" />
+                        android:paddingLeft="5dp"
+                        android:text="  JOB END TIME"
+                        android:textColor="#FFF"
+                        android:textStyle="normal" />
                 </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="5dp">
 
                     <TextView
-                        android:id="@+id/tv_teamId"
+                        android:textColor="#FFF"
+                        android:textStyle="normal"
+                        android:id="@+id/tv_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="JOB DATE:" />
+                        android:text="AMOUNT  " />
 
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_teamId"
-                        android:gravity="right"
+                        android:layout_toRightOf="@+id/tv_amount"
                         android:maxLines="1"
                         android:paddingLeft="10dp"
-                        android:text="9-DEC"
-                        android:textColor="#000000" />
+                        android:text="  9-DEC"
+                        android:textColor="#FFF"
+                        android:textStyle="normal" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_special"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="JOB SPECIAL:" />
-
-                    <TextView
-                        android:id="@+id/tv_bleck_pant"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_special"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="black pant"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="#D7D7D7"></View>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_job_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="JOB AMOUNT:" />
-
-                    <TextView
-                        android:id="@+id/tv_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_job_amount"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="Rs.600"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_booking_radius"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="JOB BOOKING RADIUS:" />
-
-                    <TextView
-                        android:id="@+id/tv_job_booking_radius"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_booking_radius"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="pune"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_employer_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="EMPLOYEE ID:" />
-
-                    <TextView
-                        android:id="@+id/tv_employer_userId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/tv_employer_user"
-                        android:gravity="right"
-                        android:maxLines="1"
-                        android:paddingLeft="10dp"
-                        android:text="Iftdtrfgcyttfy"
-                        android:textColor="#000000" />
-                </RelativeLayout>
-
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#D7D7D7"></View>
-
-
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
+android:layout_marginTop="5dp"
                     android:layout_height="wrap_content">
 
-                    <Button
-                        android:id="@+id/btnViewMore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="MORE" />
-
-                    <Button
+                    <TextView
                         android:id="@+id/btnApply"
+                        android:textStyle="normal"
+                        android:textColor="#FFF"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
+                        android:layout_alignParentRight="true"
                         android:layout_marginLeft="30dp"
-                        android:layout_toRightOf="@+id/btnViewMore"
-                        android:text="APPLY" />
+
+                        android:text="APPLY HERE"/>
                 </RelativeLayout>
 
             </LinearLayout>

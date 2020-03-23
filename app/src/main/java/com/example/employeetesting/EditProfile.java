@@ -18,10 +18,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -36,11 +44,10 @@ public class EditProfile extends AppCompatActivity {
 
     Button btnUpdate;
 
-    private ImageView userImage;
-    //EmployeeData et;
 
-    private Uri imageUri = null;
-    private StorageReference storageReference;
+
+    DatabaseReference databaseReference;
+  CircleImageView circleImageView;
 
     String mName,mEmail,mPhone,mAddress,mIFSCCODE,mBankName,mPaytmNumber,mTezNumber,mAccountnumber,mLastNumber,mPassword;
     @Override
@@ -53,7 +60,7 @@ public class EditProfile extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("EditProfile");
 
-        userImage = findViewById(R.id.ProfileImage);
+      circleImageView = findViewById(R.id.UserProfile);
         et_f_name = findViewById(R.id.et_f_name);
         et_l_name = findViewById(R.id.et_l_name);
         et_password = findViewById(R.id.et_password);
@@ -122,6 +129,27 @@ btnUpdate.setOnClickListener(new View.OnClickListener() {
                 }else {
                     Log.d("update", "Retrieving Data: Profile Data Not Found ");
                 }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        databaseReference= FirebaseDatabase.getInstance("https://employeetesting-f03f6.firebaseio.com/").getReference().child("Image").child(firebaseAuth.getCurrentUser().getUid()).child("image");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String link=dataSnapshot.getValue(String.class);
+                Log.d("imageurl","imageurl"+link);
+                Picasso.get().load(link).into(circleImageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
