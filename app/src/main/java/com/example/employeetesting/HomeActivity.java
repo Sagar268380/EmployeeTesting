@@ -99,6 +99,7 @@ FirebaseAuth firebaseAuth;
 
 
         sp=getSharedPreferences("date",MODE_PRIVATE);
+
         datePicker=findViewById(R.id.date_picker);
 
 
@@ -276,9 +277,11 @@ FirebaseAuth firebaseAuth;
 
                  mainDate = day + "/" + month + "/" + year;
                 dateDisplay.setText("Selected Date ( "+mainDate+" )");
+
                 SharedPreferences.Editor editor=sp.edit();
                 editor.putString("selectedDate",mainDate);
                 editor.commit();
+
                 urgent=0;
                 avilable=0;
                 applied=0;

@@ -373,15 +373,6 @@ public class EmployeeSetAvalibilty extends AppCompatActivity {//implements DateP
 
 
 
-
-
-
-
-
-
-
-
-
         //Calendar calendar=Calendar.getInstance();
         //        String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
         //

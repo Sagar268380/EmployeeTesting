@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/bg"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     android:id="@+id/ll">
 
@@ -84,31 +85,32 @@
             android:layout_width="160dp"
             app:cardCornerRadius="24dp"
             app:cardElevation="8dp"
-            android:background="@drawable/bg1"
-            android:layout_height="190dp"
+            android:background="@drawable/box1"
+            android:layout_height="170dp"
             android:layout_margin="10dp">
             <LinearLayout
                 android:id="@+id/avaliable_linear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@drawable/bg1"
+                android:background="@drawable/box1"
                 android:gravity="center">
 
-                <ImageView
+               <!-- <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="120dp"
                     android:src="@drawable/avaliable5"
                     android:padding="10dp"
 
-                    />
+                    />-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Avaliable Job"
+                    android:textSize="15sp"
                     android:textStyle="normal"
-                    android:textColor="#000"></TextView>
+                    android:textColor="#FFF"></TextView>
 
 
                 <TextView
@@ -117,9 +119,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:text="0"
-                    android:textColor="#000" />
+                    android:textColor="#FFF" />
 
 
             </LinearLayout>
@@ -131,27 +134,28 @@
             android:layout_width="160dp"
             app:cardCornerRadius="24dp"
             android:id="@+id/urgentCardId"
-            android:layout_height="190dp"
+            android:layout_height="170dp"
             android:layout_margin="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@drawable/bg_for_butto"
+                android:background="@drawable/box2"
                 android:gravity="center">
 
-                <ImageView
+              <!--  <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="120dp"
                     android:src="@drawable/urgent4"
-                    android:padding="10dp"/>
+                    android:padding="10dp"/>-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Urgent Job"
                     android:textStyle="normal"
-                    android:textColor="#000"></TextView>
+                    android:textSize="15sp"
+                    android:textColor="#FFF"></TextView>
 
                 <TextView
                     android:id="@+id/txt_10"
@@ -159,8 +163,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textColor="#000" />
+                    android:textColor="#FFF" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -170,7 +175,6 @@
     <LinearLayout
         android:clipToPadding="false"
         android:gravity="center"
-
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/dimen_10dp"
@@ -181,27 +185,28 @@
             android:layout_width="160dp"
             android:id="@+id/appliedCardId"
             app:cardCornerRadius="24dp"
-            android:layout_height="190dp"
+            android:layout_height="170dp"
             android:layout_margin="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@drawable/appl"
+                android:background="@drawable/box3"
                 android:gravity="center">
 
-                <ImageView
+              <!--  <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="110dp"
                     android:src="@drawable/applied6"
-                    android:padding="10dp"/>
+                    android:padding="10dp"/>-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Applied Job"
                     android:textStyle="normal"
-                    android:textColor="#000"></TextView>
+                    android:textSize="15sp"
+                    android:textColor="#FFF"></TextView>
 
                 <TextView
                     android:id="@+id/txt_25"
@@ -209,8 +214,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textColor="#000"/>
+                    android:textColor="#FFF"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -219,28 +225,29 @@
             android:clickable="true"
             android:layout_width="160dp"
             app:cardCornerRadius="24dp"
-            android:layout_height="190dp"
+            android:layout_height="170dp"
             android:layout_margin="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@drawable/on_job"
+                android:background="@drawable/box4"
                 android:orientation="vertical">
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="120dp"
                     android:src="@drawable/ongoing4"
-                    android:padding="10dp"/>
+                    android:padding="10dp"/>-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ongoing job"
                     android:textStyle="normal"
-                    android:textColor="#000"></TextView>
+                    android:textSize="15sp"
+                    android:textColor="#FFF"></TextView>
 
 
                 <TextView
@@ -250,8 +257,9 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:textStyle="bold"
+                    android:textSize="15sp"
                     android:text="0"
-                    android:textColor="#000" />
+                    android:textColor="#FFF" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
