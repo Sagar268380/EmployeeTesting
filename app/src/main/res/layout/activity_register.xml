@@ -34,7 +34,7 @@
                 android:id="@+id/ProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="choseImage"
+
                 android:layout_gravity="center"
                 android:src="@drawable/profile_icon"></ImageView>
         </LinearLayout>

@@ -43,6 +43,7 @@ import com.google.protobuf.compiler.PluginProtos;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -73,14 +74,18 @@ public class RegisterActivity extends AppCompatActivity {
     EditText et_AdharNumber;
     TextView aadhar_attachment;
 
+    Uri ImageData;
+
+    ArrayList<Uri> FileList=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setTitle("Uploading file");
+      //  progressDialog = new ProgressDialog(this);
+        //progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        //progressDialog.setTitle("Uploading file");
 
 
         ActionBar actionBar=getSupportActionBar();
@@ -129,7 +134,14 @@ public class RegisterActivity extends AppCompatActivity {
      aadhar_attachment.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
+             choseImage(view);
+         }
+     });
 
+     userImage.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             choseImage(view);
          }
      });
 
@@ -166,7 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
                     user.put("PhoneNumber",et_phone_number.getText().toString());
                     user.put("AdharNumber",et_AdharNumber.getText().toString());
 
-                   // FileUplode();
+                   FileUplode();
+                   Attach();
 
                     docRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -183,7 +196,122 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-        public void  choseImage(View view){
+  /*  private void Attach() {
+
+        for(int j=0;j<FileList.size();j++){
+            Uri PerFile=FileList.get(j);
+
+            StorageReference folder=FirebaseStorage.getInstance().getReference().child("Files");
+            final StorageReference filename=folder.child("file"+PerFile.getLastPathSegment());
+
+            filename.putFile(PerFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                 filename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                     @Override
+                     public void onSuccess(Uri uri) {
+                             DatabaseReference  databaseReference=FirebaseDatabase.getInstance().getReference().child("user");
+                            HashMap<String ,String>hashMap=new HashMap<>();
+                            hashMap.put("link",String.valueOf(uri));
+                            databaseReference.push().setValue(hashMap);
+                     }
+                 });
+                }
+            });
+        }
+    }*/
+
+
+    private void Attach() {
+        final StorageReference Imagena = storageReference.child("image"+ImageData.getLastPathSegment());
+
+        Imagena.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Imagena.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        progressDialog.dismiss();
+                        DatabaseReference imagestore=FirebaseDatabase.getInstance().getReference().child("AadharCard").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        HashMap<String,String> hashMap=new HashMap<>();
+                        hashMap.put("adhar", String.valueOf(uri));
+
+                        imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                //  Toast.makeText(RegisterActivity.this, "Finally Complete", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    private void FileUplode() {
+
+        final StorageReference Imagename = storageReference.child("image"+ImageData.getLastPathSegment());
+
+        Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        progressDialog.dismiss();
+                        DatabaseReference imagestore=FirebaseDatabase.getInstance().getReference().child("Image").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        HashMap<String,String> hashMap=new HashMap<>();
+                        hashMap.put("image", String.valueOf(uri));
+
+                        imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                //  Toast.makeText(RegisterActivity.this, "Finally Complete", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+
+   /* public void choseImage(View view){
+        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        startActivityForResult(intent,ImageBack);
+    }
+*/
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==ImageBack){
+            if(resultCode==RESULT_OK){
+                   if(data.getClipData()!=null){
+                       int count=data.getClipData().getItemCount();
+
+                       int i=0;
+
+                       while (i<count){
+                           Uri File=data.getClipData().getItemAt(i).getUri();
+
+                           FileList.add(File);
+                           i++;
+
+                       }
+                   }
+            }
+        }
+    }*/
+
+    public void  choseImage(View view){
                 CropImage.activity()
                .setGuidelines(CropImageView.Guidelines.ON)
                .setAspectRatio(1, 1)
@@ -193,36 +321,12 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        progressDialog.show();
+
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if(resultCode==RESULT_OK){
-                Uri ImageData=result.getUri();
+                ImageData=result.getUri();
 
-                final StorageReference Imagename = storageReference.child("image"+ImageData.getLastPathSegment());
-
-                Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                progressDialog.dismiss();
-                                DatabaseReference imagestore=FirebaseDatabase.getInstance().getReference().child("Image").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                HashMap<String,String> hashMap=new HashMap<>();
-                                hashMap.put("image", String.valueOf(uri));
-
-                                imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                      //  Toast.makeText(RegisterActivity.this, "Finally Complete", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
             }
         }
     }
