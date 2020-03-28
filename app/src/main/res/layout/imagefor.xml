@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageFor">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Address Proof"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25sp"
+        android:textSize="15sp"></TextView>
+
+
+    <Button
+        android:id="@+id/front"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="front"
+
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/text"></Button>
+
+   <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/front"></Button>
+
+
+
+    <!--<Button
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:visibility="gone"
+        android:layout_below="@id/front"
+        android:layout_marginLeft="20dp"
+       ></Button>-->
+
+
+
+</RelativeLayout>
