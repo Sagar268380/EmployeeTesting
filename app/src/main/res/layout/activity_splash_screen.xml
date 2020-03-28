@@ -14,22 +14,18 @@
         android:background="@drawable/splashwall"
         android:gravity="center"
         >
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
         <pl.droidsonroids.gif.GifImageView
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/splash"
             android:id="@+id/splash_screen"
             >
-
         </pl.droidsonroids.gif.GifImageView>
     </LinearLayout>
 
