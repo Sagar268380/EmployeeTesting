@@ -200,15 +200,7 @@
                     android:textColor="@color/orange_color"
                     android:textSize="@dimen/text_12sp" />
 
-                <TextView
 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_weight="1"
-                    android:text="Password"
-                    android:textColor="@color/orange_color"
-                    android:textSize="@dimen/text_12sp" />
 
             </LinearLayout>
 
@@ -232,20 +224,7 @@
                     android:textColor="@color/gray_color"
                     android:textSize="@dimen/text_12sp" />
 
-                <EditText
-                    android:id="@+id/et_password"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner_rectangle_solid_gray"
-                    android:hint="Password"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword"
-                    android:nextFocusDown="@+id/et_country_of_origin"
-                    android:padding="@dimen/dimen_8dp"
-                    android:textColor="@color/gray_color"
-                    android:textSize="@dimen/text_12sp" />
+
 
             </LinearLayout>
 
@@ -293,7 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_5dp"
-                android:text="Tez Number"
+                android:text="UPI Number"
                 android:textColor="@color/orange_color"
                 android:textSize="@dimen/text_12sp" />
 
@@ -304,7 +283,7 @@
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:background="@drawable/rounded_corner_rectangle_solid_gray"
                 android:gravity="center_vertical"
-                android:hint="Tez Number"
+                android:hint="UPI Number"
                 android:inputType="number"
                 android:nextFocusDown="@+id/et_account_number"
                 android:orientation="horizontal"

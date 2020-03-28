@@ -33,8 +33,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
-            EditText et_f_name, et_l_name, et_post_code, et_phone_number,
-            et_password, et_cnfm_pswd, et_account_number, et_address,
+            EditText et_f_name, et_l_name, et_phone_number,
+             et_account_number, et_address,
             et_email,et_paytm_number,et_tez_number,et_IFSC_CODE,et_bank_name;
 
     ProgressDialog progressDialog;
@@ -49,7 +49,7 @@ public class EditProfile extends AppCompatActivity {
     DatabaseReference databaseReference;
   CircleImageView circleImageView;
 
-    String mName,mEmail,mPhone,mAddress,mIFSCCODE,mBankName,mPaytmNumber,mTezNumber,mAccountnumber,mLastNumber,mPassword;
+    String mName,mEmail,mPhone,mAddress,mIFSCCODE,mBankName,mPaytmNumber,mTezNumber,mAccountnumber,mLastNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class EditProfile extends AppCompatActivity {
       circleImageView = findViewById(R.id.UserProfile);
         et_f_name = findViewById(R.id.et_f_name);
         et_l_name = findViewById(R.id.et_l_name);
-        et_password = findViewById(R.id.et_password);
+
         et_phone_number = findViewById(R.id.et_phone_number);
         et_email = findViewById(R.id.et_email);
         et_address=findViewById(R.id.et_address);
@@ -95,7 +95,6 @@ public class EditProfile extends AppCompatActivity {
                     mIFSCCODE=documentSnapshot.getString("IFSCCODE");
                     mAccountnumber=documentSnapshot.getString("accountNumber");
                     mBankName=documentSnapshot.getString("BankName");
-                    mPassword=documentSnapshot.getString("password");
 
                      //et.setEt_f_name(mName);
                     et_f_name.setText(mName);
@@ -108,13 +107,12 @@ public class EditProfile extends AppCompatActivity {
                     et_IFSC_CODE.setText(mIFSCCODE);
                     et_paytm_number.setText(mPaytmNumber);
                     et_tez_number.setText(mTezNumber);
-                    et_password.setText(mPassword);
 
 btnUpdate.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         docRef.update("first",et_f_name.getText().toString(),"last",et_l_name.getText().toString()
-        ,"email",et_email.getText().toString(),"password",et_password.getText().toString(),
+        ,"email",et_email.getText().toString(),"password",
                 "accountNumber",et_account_number.getText().toString(),"PaytmNumber",et_paytm_number.getText().toString(),
                 "Address", et_address.getText().toString(),"IFSCCODE",et_IFSC_CODE.getText().toString(),
                 "BankName",et_bank_name.getText().toString(),"TezNumber",et_tez_number.getText().toString(),

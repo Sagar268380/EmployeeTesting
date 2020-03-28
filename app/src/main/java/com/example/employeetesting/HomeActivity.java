@@ -72,7 +72,7 @@ FirebaseAuth firebaseAuth;
     StorageReference storageReference;
     private FirebaseUser mCurrentUser;
 
-    TextView txt_35,txt_10,txt_5,txt_25,dateDisplay,datePicker;
+    TextView txt_35,txt_10,txt_5,txt_25,dateDisplay,datePicker,txtMobile;
     SharedPreferences sp=null;
 
     String user,dateJob,date,kkk,mainDate;
@@ -191,8 +191,9 @@ FirebaseAuth firebaseAuth;
 
         mCurrentUser=FirebaseAuth.getInstance().getCurrentUser();
 
-        txtEmail=viewHeader.findViewById(R.id.headeremail);
+        txtMobile=viewHeader.findViewById(R.id.headernumber);
         txtName=viewHeader.findViewById(R.id.headername);
+
         imagrHeader=viewHeader.findViewById(R.id.UserImageProfile);
 
         databaseReference= FirebaseDatabase.getInstance("https://employeetesting-f03f6.firebaseio.com/").getReference().child("Image").child(firebaseAuth.getCurrentUser().getUid()).child("image");
@@ -224,15 +225,16 @@ FirebaseAuth firebaseAuth;
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
                         String mName = documentSnapshot.getString("first");
-                        String mEmail = documentSnapshot.getString("email");
+                      //  String mEmail = documentSnapshot.getString("email");
                         String  mLast=documentSnapshot.getString("last");
+                        String mmobile=documentSnapshot.getString("PhoneNumber");
 
                         Log.d("current","urgent job="+mName);
-                        Log.d("date","urgent job="+mEmail);
+                        Log.d("date","urgent job="+mmobile);
 
 
                         txtName.setText(mName+" "+mLast);
-                        txtEmail.setText(mEmail);
+                        txtMobile.setText(mmobile);
                     }
                 }
             });
@@ -748,6 +750,8 @@ FirebaseAuth firebaseAuth;
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                 finish();
                 break;
+            case R.id.nav_help:
+                startActivity(new Intent(HomeActivity.this,ImageFor.class));
         }
         mNavDrawer.closeDrawer(GravityCompat.START);
         return true;

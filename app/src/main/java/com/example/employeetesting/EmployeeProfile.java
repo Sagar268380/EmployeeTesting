@@ -34,11 +34,11 @@ public class EmployeeProfile extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore fStore;
     //TextView fullName,email,phone;
-    String mName,mEmail,mPhone,mAddress,mIFSCCODE,mBankName,mPaytmNumber,mTezNumber,mAccountnumber,mLastNumber,mPassword;
+    String mName,mEmail,mPhone,mAddress,mIFSCCODE,mBankName,mPaytmNumber,mTezNumber,mAccountnumber,mLastNumber;
     //Toolbar toolbar;
 
     TextView txtFirstName,txtLastName,txtEmail,txtPhoneNumber,txtPaytmNumber,txtTezNumber,txtAddress,txtIFSCCODe,txtBankName,
-            txtPassword,txtAccountNumber;
+           txtAccountNumber;
 
     DatabaseReference databaseReference;
 
@@ -67,7 +67,6 @@ public class EmployeeProfile extends AppCompatActivity {
         txtLastName=findViewById(R.id.et_l_name);
         txtEmail=findViewById(R.id.et_email);
         txtAddress=findViewById(R.id.et_address);
-        txtPassword=findViewById(R.id.et_password);
         txtPaytmNumber=findViewById(R.id.et_paytm_number);
         txtIFSCCODe=findViewById(R.id.IFSCCODE);
         txtTezNumber=findViewById(R.id.et_tez_number);
@@ -93,7 +92,7 @@ public class EmployeeProfile extends AppCompatActivity {
                     mIFSCCODE=documentSnapshot.getString("IFSCCODE");
                     mAccountnumber=documentSnapshot.getString("accountNumber");
                     mBankName=documentSnapshot.getString("BankName");
-                    mPassword=documentSnapshot.getString("password");
+
 
                     txtFirstName.setText(mName);
                     txtLastName.setText(mLastNumber);
@@ -105,7 +104,7 @@ public class EmployeeProfile extends AppCompatActivity {
                     txtIFSCCODe.setText(mIFSCCODE);
                     txtAccountNumber.setText(mAccountnumber);
                     txtBankName.setText(mBankName);
-                    txtPassword.setText(mPassword);
+
                 }else {
                     Log.d(TAG, "Retrieving Data: Profile Data Not Found ");
                 }

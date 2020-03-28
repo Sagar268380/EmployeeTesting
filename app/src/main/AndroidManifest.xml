@@ -13,38 +13,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OnGoingJob"></activity>
+        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".OnGoingJob" />
+        <activity android:name=".ImageFor"></activity>
         <activity
             android:name=".newActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DetailsActivity"
-
             android:parentActivityName=".FindJob" />
         <activity android:name=".ApplyForJob" />
         <activity
             android:name=".EmployeeProfile"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".EditProfile"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".EmployeeSetAvalibilty"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".UrgentJobActivity"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".FindJob"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".DashBoard"
-
             android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".HomeActivity"

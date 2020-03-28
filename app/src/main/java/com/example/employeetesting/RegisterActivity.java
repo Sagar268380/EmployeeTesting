@@ -23,6 +23,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     EditText et_f_name, et_l_name, et_post_code, et_phone_number,
-            et_password, et_cnfm_pswd, et_account_number, et_address,
+             et_account_number, et_address,
             et_email,et_paytm_number,et_tez_number,et_IFSC_CODE,et_bank_name;
     ProgressDialog progressDialog;
     FirebaseAuth fAuth;
@@ -68,10 +69,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final int ImageBack=1;
 
+
+    EditText et_AdharNumber;
+    TextView aadhar_attachment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("Uploading file");
+
 
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("Register");
@@ -80,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         userImage = findViewById(R.id.ProfileImage);
         et_f_name = findViewById(R.id.et_f_name);
         et_l_name = findViewById(R.id.et_l_name);
-        et_password = findViewById(R.id.et_password);
+
         et_phone_number = findViewById(R.id.et_phone_number);
         et_email = findViewById(R.id.et_email);
         et_address=findViewById(R.id.et_address);
@@ -93,6 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
+
+        et_AdharNumber=findViewById(R.id.et_aadhar_number);
+        aadhar_attachment=findViewById(R.id.aadharAttach);
 
         storageReference = FirebaseStorage.getInstance().getReference().child("ImageFolder");
      /*  userImage.setOnClickListener(new View.OnClickListener() {
@@ -113,14 +126,21 @@ public class RegisterActivity extends AppCompatActivity {
                                      }
         );*/
 
+     aadhar_attachment.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+
+         }
+     });
+
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(et_f_name.getText().toString().isEmpty()|| et_l_name.getText().toString().isEmpty() || et_password.getText().toString().isEmpty()
+                if(et_f_name.getText().toString().isEmpty()|| et_l_name.getText().toString().isEmpty()
                         || et_account_number.getText().toString().isEmpty()|| et_paytm_number.getText().toString().isEmpty() || et_tez_number.getText().toString().isEmpty()
                         || et_bank_name.getText().toString().isEmpty()|| et_email.getText().toString().isEmpty() || et_IFSC_CODE.getText().toString().isEmpty()
-                        ||et_phone_number.getText().toString().isEmpty()|| et_address.getText().toString().isEmpty())
+                        ||et_phone_number.getText().toString().isEmpty()|| et_address.getText().toString().isEmpty() || et_AdharNumber.getText().toString().isEmpty())
                 {
                     Toast.makeText(RegisterActivity.this, "Fill the required Details", Toast.LENGTH_SHORT).show();
                     return;
@@ -137,7 +157,6 @@ public class RegisterActivity extends AppCompatActivity {
                     user.put("last",et_l_name.getText().toString());
                     user.put("email",et_email.getText().toString());
 
-                    user.put("password",et_password.getText().toString());
                     user.put("accountNumber",et_account_number.getText().toString());
                     user.put("PaytmNumber",et_paytm_number.getText().toString());
                     user.put("Address", et_address.getText().toString());
@@ -146,6 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     user.put("TezNumber",et_tez_number.getText().toString());
                     user.put("PhoneNumber",et_phone_number.getText().toString());
+                    user.put("AdharNumber",et_AdharNumber.getText().toString());
 
                    // FileUplode();
 
@@ -238,18 +258,20 @@ try {
     }*/
 
    public void  choseImage(View view){
-       Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-       intent.setType("image/*");
-       startActivityForResult(intent,ImageBack);
+       CropImage.activity()
+               .setGuidelines(CropImageView.Guidelines.ON)
+               .setAspectRatio(1, 1)
+               .start(RegisterActivity.this);
    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==ImageBack){
+        progressDialog.show();
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if(resultCode==RESULT_OK){
-                Uri ImageData=data.getData();
+                Uri ImageData=result.getUri();
 
                 final StorageReference Imagename= storageReference.child("image"+ImageData.getLastPathSegment());
 
@@ -260,6 +282,7 @@ try {
                         Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                progressDialog.dismiss();
                                 DatabaseReference imagestore=FirebaseDatabase.getInstance().getReference().child("Image").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                                 HashMap<String,String> hashMap=new HashMap<>();

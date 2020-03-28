@@ -33,24 +33,24 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#000"
             android:textStyle="normal"
-            android:textSize="14sp"
-            android:layout_marginLeft="3dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             />
 
 
         <TextView
-            android:id="@+id/headeremail"
+            android:id="@+id/headernumber"
             android:layout_width="230dp"
             android:layout_height="35dp"
             android:layout_below="@+id/headername"
-            android:text="Customer Email"
+            android:text="Customer Number"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#000"
             android:textStyle="normal"
-            android:textSize="11sp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="12dp"
+
 
             />
 

@@ -41,7 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
         date=findViewById(R.id.tv_dat);
         btnApply=findViewById(R.id.btnApply);
         description=findViewById(R.id.tv_desc);
-        specialInstruction=findViewById(R.id.tv_special_instruction);
+        //specialInstruction=findViewById(R.id.tv_special_instruction);
 
         Intent intent=getIntent();
         mTitle=intent.getStringExtra("jobtitle");
@@ -70,10 +70,10 @@ public class DetailsActivity extends AppCompatActivity {
                                     for (DataSnapshot ds1 : dataSnapshots.getChildren()) {
                                         String jobs = ds1.getKey();
                                         mdescription = dataSnapshots.child(jobs).child("Job_Desc").getValue().toString();
-                                       // mSpecialInstruction = dataSnapshot.child(jobs).child("Job_Special").getValue().toString();
+                                        mSpecialInstruction = dataSnapshots.child(jobs).child("Job_Special").getValue().toString();
 
                                         description.setText(mdescription);
-                                        specialInstruction.setText(mSpecialInstruction);
+                                        // specialInstruction.setText(mSpecialInstruction);
                                     }
                                 }
                             }
@@ -96,12 +96,13 @@ public class DetailsActivity extends AppCompatActivity {
         date.setText(mDate);
         company.setText(mCompany);
         description.setText(mdescription);
-        specialInstruction.setText(mSpecialInstruction);
+        //specialInstruction.setText(mSpecialInstruction);
 
         btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1=new Intent(DetailsActivity.this,ApplyForJob.class);
+                intent1.putExtra("special",mSpecialInstruction);
                 startActivity(intent1);
             }
         });

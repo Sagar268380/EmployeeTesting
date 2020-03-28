@@ -27,18 +27,34 @@
             android:title="Applied Jobs" />
 
         <item
-            android:id="@+id/nav_edit_profile"
-            android:icon="@drawable/ic_mode_edit_black_24dp"
-            android:title="Edit Profile" />
+            android:id="@+id/nav_ongoing_job"
+            android:icon="@drawable/find_job"
+            android:title="Ongoing Job" />
 
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
+                android:id="@+id/nav_edit_profile"
+                android:icon="@drawable/ic_mode_edit_black_24dp"
+                android:title="Edit Profile" />
+
+            <item
                 android:id="@+id/profile"
                 android:icon="@drawable/ic_content_paste_black_24dp"
                 android:title="Profile" />
+
+
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="Help" />
+
+            <item
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="About Us" />
 
             <item
                 android:id="@+id/nav_logout"
