@@ -46,6 +46,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -62,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     String userID;
-    String profileUrl,adharUrl,passbookUrl;
     Button btnRegister;
 
     private ImageView userImage;
@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Uri filepath1,filepath2,filepath3;
     EditText et_AdharNumber;
     TextView adharCard,passbook;
-
+    Uri profileUrl,adharUrl,passbookUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +180,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                                     Toast.makeText(RegisterActivity.this, "Profile done", Toast.LENGTH_SHORT).show();
-                                    profileUrl=taskSnapshot.getStorage().getDownloadUrl().toString();
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            profileUrl=uri;
+                                        }
+                                    });
                                  }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -197,8 +202,13 @@ public class RegisterActivity extends AppCompatActivity {
                             reference.putFile(filepath2).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    Toast.makeText(RegisterActivity.this, "Adhar Done"+taskSnapshot.getStorage().getDownloadUrl(), Toast.LENGTH_LONG).show();
-                                    adharUrl=taskSnapshot.getStorage().getDownloadUrl().toString();
+                                    Toast.makeText(RegisterActivity.this, "Adhar Done", Toast.LENGTH_LONG).show();
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            adharUrl=uri;
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -209,38 +219,44 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     Toast.makeText(RegisterActivity.this, "Passbook Done", Toast.LENGTH_SHORT).show();
-                                    passbookUrl=taskSnapshot.getStorage().getDownloadUrl().toString();
-
-
-                                    DocumentReference docRef = fStore.collection("users").document(userID);
-                                    //DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users").child(userID);
-                                    Map<String,Object> user = new HashMap<>();
-
-                                    user.put("first",et_f_name.getText().toString());
-                                    user.put("last",et_l_name.getText().toString());
-                                    user.put("email",et_email.getText().toString());
-                                    user.put("accountNumber",et_account_number.getText().toString());
-                                    user.put("PaytmNumber",et_paytm_number.getText().toString());
-                                    user.put("Address", et_address.getText().toString());
-                                    user.put("IFSCCODE",et_IFSC_CODE.getText().toString());
-                                    user.put("BankName",et_bank_name.getText().toString());
-                                    user.put("TezNumber",et_tez_number.getText().toString());
-                                    user.put("PhoneNumber",et_phone_number.getText().toString());
-                                    user.put("AdharNumber",et_AdharNumber.getText().toString());
-                                    user.put("ProfileUrl",passbookUrl);
-                                    user.put("AdharUrl",adharUrl);
-                                    user.put("PassbookUrl",passbookUrl);
-                                    // FileUplode();
-                                    docRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                progressDialog.dismiss();
-                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                                                finish();
-                                            }
+                                        public void onSuccess(Uri uri)
+                                        {
+                                            passbookUrl=uri;
+
+                                            DocumentReference docRef = fStore.collection("users").document(userID);
+                                            //DatabaseReference reference= FirebaseDatabase.getInstance().getReference("users").child(userID);
+                                            Map<String,Object> user = new HashMap<>();
+
+                                            user.put("first",et_f_name.getText().toString());
+                                            user.put("last",et_l_name.getText().toString());
+                                            user.put("email",et_email.getText().toString());
+                                            user.put("accountNumber",et_account_number.getText().toString());
+                                            user.put("PaytmNumber",et_paytm_number.getText().toString());
+                                            user.put("Address", et_address.getText().toString());
+                                            user.put("IFSCCODE",et_IFSC_CODE.getText().toString());
+                                            user.put("BankName",et_bank_name.getText().toString());
+                                            user.put("TezNumber",et_tez_number.getText().toString());
+                                            user.put("PhoneNumber",et_phone_number.getText().toString());
+                                            user.put("AdharNumber",et_AdharNumber.getText().toString());
+                                            user.put("ProfileUrl",passbookUrl.toString());
+                                            user.put("AdharUrl",adharUrl.toString());
+                                            user.put("PassbookUrl",passbookUrl.toString());
+                                            // FileUplode();
+                                            docRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        progressDialog.dismiss();
+                                                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                                        finish();
+                                                    }
+                                                }
+                                            });
                                         }
                                     });
+
                                 }
                             });
                         }
@@ -288,7 +304,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /*
-
 
       public void  choseImage(View view){
                  CropImage.activity()
